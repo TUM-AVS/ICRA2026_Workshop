@@ -99,11 +99,11 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: #935d8c;
-		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
-		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+		background-color: #005293;
+		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #0065bd 15%, #003359 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #0065bd 15%, #003359 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #0065bd 15%, #003359 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #0065bd 15%, #003359 85%);
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -3086,8 +3086,23 @@ input, select, textarea {
 		}
 
 		#header.alt {
+			position: relative;
 			padding: 7em 5em 4em 5em ;
 		}
+
+			#header.alt .tum-logo {
+				position: absolute;
+				top: 1.5em;
+				right: 0em;
+				margin: 0;
+				z-index: 2;
+			}
+
+				#header.alt .tum-logo img {
+					display: block;
+					width: min(120px, 16vw);
+					height: auto;
+				}
 
 			#header.alt h1 {
 				font-size: 3.25em;
@@ -3137,6 +3152,15 @@ input, select, textarea {
 		}
 
 		@media screen and (max-width: 980px) {
+
+			#header.alt .tum-logo {
+				top: 1em;
+				right: 1em;
+			}
+
+				#header.alt .tum-logo img {
+					width: min(100px, 28vw);
+				}
 
 			#header {
 				padding: 4em 3em 0.1em 3em ;
