@@ -4199,3 +4199,63 @@ input, select, textarea {
 		.faq-answer p:last-child {
 			margin-bottom: 0;
 		}
+
+/* Sponsors */
+
+	.sponsor-logo-ieee {
+		max-width: min(680px, 85vw);
+		height: auto;
+		margin: 0;
+	}
+
+	.sponsor-logo-row {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 48px;
+		margin-top: 34px;
+		width: 100%;
+	}
+
+	.sponsor-logo-row-ieee {
+		margin-top: 0;
+	}
+
+	.sponsor-logo {
+		width: auto;
+		max-width: calc((100% - 48px) / 2);
+		object-fit: contain;
+	}
+
+	.sponsor-logo-tieriv {
+		max-height: 65px;
+	}
+
+	.sponsor-logo-autoware {
+		max-height: 100px;
+	}
+
+	.sponsor-logo-mirmi {
+		max-height: 52px;
+	}
+
+	.sponsor-logo-rig {
+		max-height: 84px;
+	}
+
+	@media screen and (max-width: 480px) {
+
+		.sponsor-logo-ieee {
+			max-width: 90vw;
+		}
+
+		.sponsor-logo-row {
+			gap: 24px;
+			margin-top: 24px;
+		}
+
+		.sponsor-logo {
+			max-width: calc((100% - 24px) / 2);
+		}
+
+	}
