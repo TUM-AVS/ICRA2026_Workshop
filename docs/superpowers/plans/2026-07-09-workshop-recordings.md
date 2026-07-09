@@ -524,123 +524,94 @@ is absent."
 
 ---
 
-### Task 4: Convert forward-looking prose to past tense
+### Task 4: Remove the stale "recordings coming soon" sentence
 
 **Files:**
-- Modify: `index.html` — header (currently lines 32-37), About section (currently lines 62-78), Program intro (currently line 172).
+- Modify: `index.html:174`
 
 **Interfaces:**
-- Consumes: nothing.
-- Produces: nothing. Independent of Tasks 1-3; kept separate so the recordings diff stays reviewable on its own.
+- Consumes: the `#recordings` section anchor created in Task 3.
+- Produces: nothing.
 
-Strictly out of scope: the program table, the Accepted Papers section, the FAQ, the Organizers section, the footer. Several FAQ entries are now moot (poster format, in-person presentation requirement, camera-ready instructions), but cleaning those up is a separate task the user has explicitly deferred. **Do not touch `assets/js/faq.js`.**
+**This task was rewritten mid-execution.** The original Task 4 planned a past-tense conversion of the header, the About section, and the Program intro. That plan was written against a stale reading of `index.html`: commit `37d4f50` ("updated papers with final submissions"), which the user pulled before this work began, had already rewritten the Program intro into past tense and removed its Teams/Zoom invitation. The original Step 3 would have searched for text that no longer exists and failed.
 
-- [ ] **Step 1: Header — mark the date as past**
-
-Replace the calendar line only. Keep the room; keep the "Half-day Workshop" line; keep the location line.
-
-Find:
+What that same commit *added* is a sentence that our Recordings section now contradicts:
 
 ```html
-						<a href="#" class="icon solid solo fa-calendar-alt"><span class="label">Calendar</span></a> 1st June 2026, 14:00 – 17:45 | Room Strauss 1<br/>
+<p>We are currently reviewing the workshop recordings and will make them available here within the next few weeks.</p>
+```
+
+It sits in the Program section, directly above the finished Recordings section. Shipping both is a self-contradiction, so replacing this one sentence is in scope.
+
+The user has explicitly scoped this task to that sentence and nothing else. The header (`1st June 2026, 14:00 – 17:45 | Room Strauss 1`) and the About section (`This workshop will go beyond...`, `participants will experience...`) remain in the future tense **by decision, not by oversight**. Do not touch them. Do not touch the FAQ, the program table, the papers list, or `assets/js/faq.js`.
+
+- [ ] **Step 1: Replace the sentence**
+
+Find, at `index.html:174`:
+
+```html
+									<p>We are currently reviewing the workshop recordings and will make them available here within the next few weeks.</p>
 ```
 
 Replace with:
 
 ```html
-						<a href="#" class="icon solid solo fa-calendar-alt"><span class="label">Calendar</span></a> Held on 1st June 2026, 14:00 – 17:45 | Room Strauss 1<br/>
+									<p>Recordings of the talks are now available in the <a href="#recordings">Recordings</a> section below.</p>
 ```
 
-- [ ] **Step 2: About section — convert to past tense**
+Preserve the leading tabs exactly — the file indents with tabs and this line sits deep in the section.
 
-Find the three forward-looking sentences and replace them. The first paragraph's opening ("Autonomous driving has made remarkable progress… This question can be answered from different angles…") is timeless — leave it alone.
-
-Find:
-
-```html
-This workshop will go beyond abstract discussions by confronting participants with the real challenges of generalization in autonomous driving. 
-We will stage a direct dialogue between two competing paradigms: (1) modular, open-source ecosystems that thrive on community-driven collaboration, and (2) data-hungry end-to-end approaches 
-that aim to scale through massive models and datasets. 
-What makes this workshop unique is its hands-on character: participants will experience a live, livestreamed demonstration of the TUM EDGAR autonomous vehicle driving on public roads in Munich, 
-providing a concrete basis for in-depth discussions on robustness, safety, and scalability. 
-Through keynotes, interactive sessions, and real-world experiments on topics like domain adaptation, sim-to-real transfer, self-supervised and continual learning, evaluation benchmarks, 
-and software engineering practices,
-we will collectively ask: <strong> which paradigm — modular, end-to-end, or hybrid — can truly deliver
-generalization in AVs? </strong>
-```
-
-Replace with:
-
-```html
-This workshop went beyond abstract discussions, confronting participants with the real challenges of generalization in autonomous driving. 
-We staged a direct dialogue between two competing paradigms: (1) modular, open-source ecosystems that thrive on community-driven collaboration, and (2) data-hungry end-to-end approaches 
-that aim to scale through massive models and datasets. 
-What made this workshop unique was its hands-on character: participants experienced a live, livestreamed demonstration of the TUM EDGAR autonomous vehicle driving on public roads in Munich, 
-providing a concrete basis for in-depth discussions on robustness, safety, and scalability. 
-Through keynotes, interactive sessions, and real-world experiments on topics like domain adaptation, sim-to-real transfer, self-supervised and continual learning, evaluation benchmarks, 
-and software engineering practices,
-we collectively asked: <strong> which paradigm — modular, end-to-end, or hybrid — can truly deliver
-generalization in AVs? </strong>
-```
-
-The trailing spaces at line ends are present in the original. Preserve them; they are inside a `<p>` and harmless, and keeping them shrinks the diff.
-
-- [ ] **Step 3: Program intro — convert to past tense and drop the Zoom invitation**
-
-The Zoom sentence has always contradicted the FAQ, which states that virtual participation is not available. After the event it is simply wrong. Remove it.
-
-Find:
-
-```html
-									<p> The workshop will feature prominent speakers, and contributions from the intelligent vehicles and mobile robotics community. </br> The workshop is happening in-person at ICRA 2026 in Vienna. Additionally we welcome participants to listen and contribute virtually via Zoom.</p>
-```
-
-Replace with:
-
-```html
-									<p> The workshop featured prominent speakers and contributions from the intelligent vehicles and mobile robotics community. </br> The workshop took place in person at ICRA 2026 in Vienna.</p>
-```
-
-- [ ] **Step 4: Verify no forward-looking prose survives in the converted regions**
+- [ ] **Step 2: Verify the stale sentence is gone and the new one links to a real anchor**
 
 ```bash
 echo "--- must find nothing:"
-grep -n "will go beyond\|We will stage\|will experience\|we will collectively ask\|will feature\|is happening in-person\|virtually via Zoom" index.html
-echo "--- must find the past-tense replacements:"
-grep -c "went beyond\|We staged\|participants experienced\|we collectively asked\|The workshop featured\|took place in person\|Held on 1st June" index.html
+grep -n "currently reviewing the workshop recordings" index.html
+echo "--- must find the replacement (expect 1):"
+grep -c 'Recordings of the talks are now available' index.html
+echo "--- the anchor it links to must exist (expect 1):"
+grep -c 'id="recordings"' index.html
+echo "--- untouched by decision: header and About stay future-tense (each expect 1):"
+grep -c "1st June 2026, 14:00" index.html
+grep -c "This workshop will go beyond" index.html
 ```
 
-Expected: no output from the first grep. The second prints `6`.
+Expected: no output from the first grep; then `1`, `1`, `1`, `1`.
 
-`grep -c` counts matching **lines**, not matches, and the count is 6 rather than 7 because `The workshop featured` and `took place in person` both sit on the single `<p>` line of the Program intro. The six lines are: the header, `went beyond`, `We staged`, `participants experienced`, `we collectively asked`, and the Program intro.
+The last two assertions are deliberate. They fail loudly if someone "helpfully" converts the header or About section, which the user has ruled out of scope.
 
-If the number is lower, a replacement was missed. Read the diff before assuming the count is wrong.
-
-- [ ] **Step 5: Read the rendered page**
+- [ ] **Step 3: Confirm the page still renders and the link resolves**
 
 ```bash
-python3 -m http.server 8000 --directory . >/dev/null 2>&1 &
+cd /home/korbinian/Github/ICRA2026_Workshop
+python3 -m http.server 8071 --directory . >/dev/null 2>&1 & SRV=$!
+sleep 1
+timeout 60 google-chrome --headless=new --no-sandbox --disable-gpu \
+  --virtual-time-budget=4000 --dump-dom "http://localhost:8071/index.html" > /tmp/dom-task4.html 2>/dev/null
+kill $SRV 2>/dev/null
+echo "--- replacement present in rendered DOM (expect 1):"
+grep -c 'Recordings of the talks are now available' /tmp/dom-task4.html
+echo "--- stale sentence absent (expect 0):"
+grep -c 'currently reviewing the workshop recordings' /tmp/dom-task4.html
+echo "--- section still renders five cards (expect 5):"
+grep -o '<article class="recording-card' /tmp/dom-task4.html | wc -l
+rm -f /tmp/dom-task4.html
 ```
 
-Open `http://localhost:8000/index.html` and read the About section and the Program intro out loud.
+Expected: `1`, `0`, `5`.
 
-Expected: every sentence is in past tense and grammatical. There is no invitation to attend, register, or join via Zoom anywhere in those two blocks. The header reads "Held on 1st June 2026".
+Note the anchored `<article class="recording-card` pattern. A bare `grep -o 'class="recording-card'` counts every class sharing that prefix and reports 35, not 5.
 
-Stop the server: `kill %1`.
-
-- [ ] **Step 6: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
 git add index.html
-git commit -m "Rewrite workshop prose in past tense
+git commit -m "Replace the stale recordings announcement with a link
 
-The workshop took place on 1 June 2026, so the header, About section,
-and Program intro no longer describe it as upcoming. The Zoom invitation
-in the Program intro is dropped: it contradicted the FAQ, which says
-virtual participation was never available.
+The Program section promised recordings within the next few weeks. They
+are on the page now, directly below, so it points at them instead.
 
-The FAQ itself is deliberately left alone; several entries are now moot
-and cleaning them up is a separate change."
+The header and About section stay in the future tense; the user scoped
+this change to the one contradictory sentence."
 ```
 
 ---
@@ -663,12 +634,14 @@ Expected: `js ok`, then `clean`, `clean`, and no output from `git status --short
 
 - [ ] **Final browser pass**
 
-Serve, hard-reload, and confirm end to end: the Recordings nav entry scrolls to the section; Betz's card is featured; all five thumbnails load from `localhost`; clicking any card starts a `youtube-nocookie.com` player; the page below 980px is a single readable column; the About and Program text reads as a past event.
+Serve, hard-reload, and confirm end to end: the Recordings nav entry scrolls to the section; Betz's card is featured; all five thumbnails load from `localhost`; clicking any card starts a `youtube-nocookie.com` player; the page below 980px is a single readable column; and nothing on the page still promises the recordings as forthcoming.
+
+Note that `loading="lazy"` plus `captureBeyondViewport` means a headless full-page screenshot shows empty thumbnail boxes even when the images are fine. Force `loading="eager"` and await `img.decode()` before capturing, or the screenshot will lie.
 
 - [ ] **Confirm the commit sequence**
 
 ```bash
-git log --oneline -4
+git log --oneline -5
 ```
 
-Expected, newest first: the tense rewrite, the Recordings section, the recordings module, the thumbnails.
+Expected, newest first: the stale-sentence replacement, the footnote/thumbnail fix, the Recordings section, the recordings module, the thumbnails.
