@@ -22,7 +22,7 @@ data-driven and set the pattern this work follows:
 Custom CSS for both lives appended at the end of `assets/css/main.css`, *not* in
 `assets/sass/`. New styles follow suit.
 
-## The videos
+## The recordings
 
 Playlist: `https://www.youtube.com/playlist?list=PLHJBSI3Tm1s8`
 (channel: TUM Autonomous Vehicle Systems Lab)
@@ -46,7 +46,7 @@ Notes:
 
 ## Design
 
-### 1. Data module: `assets/js/videos.js`
+### 1. Data module: `assets/js/recordings.js`
 
 An IIFE mirroring `papers.js`. Holds an array of five objects:
 
@@ -61,9 +61,9 @@ An IIFE mirroring `papers.js`. Holds an array of five objects:
 ```
 
 Array order is program order. The module renders into an empty
-`<div id="video-grid">` and is loaded via a `<script>` tag next to the existing
-`papers.js` / `faq.js` tags. It initializes on `DOMContentLoaded`, guarding for
-the already-loaded case, exactly as `papers.js` does.
+`<div id="recordings-grid">` and is loaded via a `<script>` tag next to the
+existing `papers.js` / `faq.js` tags. It initializes on `DOMContentLoaded`,
+guarding for the already-loaded case, exactly as `papers.js` does.
 
 ### 2. Click-to-play behavior
 
@@ -85,8 +85,8 @@ cookies until a visitor actively presses play. The media area is an
 
 ### 3. Self-hosted thumbnails
 
-Thumbnails are downloaded once and committed to `images/video/<ID>.jpg`, rather
-than hotlinked from `https://i.ytimg.com/vi/<ID>/hqdefault.jpg`.
+Thumbnails are downloaded once and committed to `images/recordings/<ID>.jpg`,
+rather than hotlinked from `https://i.ytimg.com/vi/<ID>/hqdefault.jpg`.
 
 Rationale: hotlinking issues a request to a Google server on page load, which
 would undercut the point of using `youtube-nocookie.com`. Self-hosting means no
@@ -98,9 +98,9 @@ always present; `maxresdefault` is not guaranteed).
 
 ### 4. Layout
 
-A new `<section id="videos" class="main">` placed between the Program and
+A new `<section id="recordings" class="main">` placed between the Program and
 Accepted Papers sections, with a nav entry "Recordings" between "Program" and
-"Accepted Papers".
+"Accepted Papers". Section heading: "Recordings".
 
 Within the section:
 
@@ -120,7 +120,11 @@ Below the grid:
 Appended to the end of `assets/css/main.css`, reusing the visual language of
 `.paper-card`: white background, `solid 1px #dddddd` border, `border-radius: 8px`,
 soft box-shadow. Class names follow the existing BEM-ish convention
-(`.video-card`, `.video-card__media`, `.video-card__title`, …).
+(`.recording-card`, `.recording-card__media`, `.recording-card__title`, …).
+
+Everything user-facing and internal is named "recordings" — the section id, the
+nav label, the heading, the JS module, the image directory, and the CSS classes.
+The word "video" appears only where it describes a YouTube concept (video ID).
 
 ### 6. Tense conversion
 
