@@ -4259,3 +4259,121 @@ input, select, textarea {
 		}
 
 	}
+
+	.recordings-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.5em;
+	}
+
+	.recording-card {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		border: solid 1px #dddddd;
+		border-radius: 8px;
+		background: #ffffff;
+		box-shadow: 0 0.65em 1.8em rgba(99, 99, 99, 0.08);
+	}
+
+		.recording-card--featured {
+			grid-column: 1 / -1;
+		}
+
+		/* Overrides the global button rules at main.css:1831. */
+		.recording-card__media {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: auto;
+			min-width: 0;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			line-height: normal;
+			white-space: normal;
+			aspect-ratio: 16 / 9;
+			background-color: #000000;
+			cursor: pointer;
+			overflow: hidden;
+		}
+
+			.recording-card__thumb {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+			}
+
+			.recording-card__media:hover .recording-card__thumb,
+			.recording-card__media:focus-visible .recording-card__thumb {
+				transform: scale(1.03);
+				opacity: 0.85;
+			}
+
+			.recording-card__play {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 4.5rem;
+				height: 4.5rem;
+				margin: -2.25rem 0 0 -2.25rem;
+				border-radius: 50%;
+				background-color: rgba(0, 0, 0, 0.55);
+				transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+			}
+
+				/* The play triangle, drawn with borders so it needs no asset. */
+				.recording-card__play:after {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					margin: -0.75rem 0 0 -0.5rem;
+					border-style: solid;
+					border-width: 0.75rem 0 0.75rem 1.25rem;
+					border-color: transparent transparent transparent #ffffff;
+				}
+
+			.recording-card__media:hover .recording-card__play,
+			.recording-card__media:focus-visible .recording-card__play {
+				background-color: #f2849e;
+				transform: scale(1.08);
+			}
+
+		.recording-card__player {
+			display: block;
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			border: 0;
+		}
+
+		.recording-card__body {
+			padding: 1.25em 1.5em 1.5em 1.5em;
+		}
+
+			.recording-card__title {
+				margin: 0 0 0.4em 0;
+				font-size: 1em;
+				line-height: 1.5;
+			}
+
+			.recording-card__speaker {
+				margin: 0;
+				font-size: 0.9em;
+				color: #636363;
+			}
+
+	.recordings-playlist {
+		margin: 0;
+		font-size: 0.9em;
+	}
+
+	@media screen and (max-width: 980px) {
+
+		.recordings-grid {
+			grid-template-columns: 1fr;
+		}
+
+	}
