@@ -4365,6 +4365,12 @@ input, select, textarea {
 				color: #636363;
 			}
 
+	.recordings-note {
+		margin: 0 0 1em 0;
+		font-size: 0.9em;
+		color: #636363;
+	}
+
 	.recordings-playlist {
 		margin: 0;
 		font-size: 0.9em;
